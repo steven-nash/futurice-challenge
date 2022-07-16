@@ -1,0 +1,58 @@
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const safeEval = require('safe-eval');
+const {request} = require("express"); // To avoid very XSS vulnerable eval() function
+
+const app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get("/", (req, res) => {
+  res.render('index.ejs');
+});
+
+app.get("/calculus", (req, res) => {
+  // Try to calculate result from query, catch error
+  try {
+    // Converts Base64 query into ascii string
+    const query = Buffer.from(req.query.query, 'base64').toString('ascii');
+    // Use safe-eval to calculate query
+    var result = safeEval(query);
+  } catch (error) {
+    // Send error in JSON object
+    return res.json({ error: true, message: error.toString() });
+  }
+  // Send result in JSON object
+  res.json({ error: false, result: result });
+});
+
+// Post from GUI
+app.post("/", (req, res) => {
+  // Convert input into base64
+  const input = Buffer.from(req.body.query).toString('base64');
+  // Redirect to
+  res.redirect('/calculus?query='+input);
+});
+
+// catch 404
+app.use(function(req, res, next) {
+  res.status(404).send("Page not found.");
+});
+
+// Start server on port 3000
+let server = app.listen(3000, () => {
+  console.log('Listening', server.address().port)
+});
+
+//module.exports = app;
