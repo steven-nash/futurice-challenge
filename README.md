@@ -16,7 +16,7 @@ The application was deployed using AWS App Runner, and can be accessed [here](ht
 Jest and Supertest were used for testing. The following 6 inputs were tested:  
 
 - Test of the given example: "2 * (23/(3*3))- 23 * (2*3)".  
-Expected result: -132.88888888888889  
+Expected result: -132.88888888888889
 
 - Test division by zero: "5/0".  
 Expected result: null
@@ -32,3 +32,5 @@ Expected result: error
 
 - Empty query: "".  
 Expected result: error
+
+All tests were successfully passed.
