@@ -1,7 +1,5 @@
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const safeEval = require('safe-eval'); // To avoid very XSS vulnerable eval() function
 
 const app = express();
@@ -11,16 +9,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.use("/public", express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Endpoint to UI
 app.get("/", (req, res) => {
   res.render('index.ejs');
 });
 
+// Endpoint for calculating the result and sending a JSON response
 app.get("/calculus", (req, res) => {
   // Try to calculate result from query, catch error
   try {
@@ -32,14 +30,14 @@ app.get("/calculus", (req, res) => {
     // Use safe-eval to calculate query
     var result = safeEval(query);
   } catch (error) {
-    // Send error in JSON object
+    // Send error in JSON response
     return res.json({ error: true, message: error.toString() });
   }
-  // Send result in JSON object
+  // Send JSON result
   res.json({ error: false, result: result });
 });
 
-// Post from GUI
+// Post for GUI
 app.post("/", (req, res) => {
   // Convert input into base64
   const input = Buffer.from(req.body.query).toString('base64');
