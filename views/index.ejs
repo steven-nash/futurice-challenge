@@ -5,11 +5,16 @@
     <link rel='stylesheet' href='./public/stylesheets/style.css' />
   </head>
   <body>
+  <div class="title">
     <h1>Simple Calculator</h1>
+    <p>Converts a given input to Base64 and redirects to an endpoint that calculates a given equation, sending a JSON object of the result.</p>
+  </div>
+  <div class="form">
     <form method="POST">
-      <label for="query">Equation</label>
+      <label for="query">Equation:</label>
       <input type="text" name="query" id="query" required/>
       <button>Calculate</button>
     </form>
+  </div>
   </body>
 </html>

@@ -1,15 +1,14 @@
-const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const safeEval = require('safe-eval');
-const {request} = require("express"); // To avoid very XSS vulnerable eval() function
+const safeEval = require('safe-eval'); // To avoid very XSS vulnerable eval() function
 
 const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.use("/public", express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
@@ -26,7 +25,10 @@ app.get("/calculus", (req, res) => {
   // Try to calculate result from query, catch error
   try {
     // Converts Base64 query into ascii string
-    const query = Buffer.from(req.query.query, 'base64').toString('ascii');
+    var query = Buffer.from(req.query.query, 'base64').toString('ascii');
+    // Check for any invalid characters
+    if(!(/[0-9 +\-()*/]/g).test(query) || (/['"]+/g).test(query))
+      return res.json({ error: true, message: "String can only include numbers and the symbols + - * / ( )" });
     // Use safe-eval to calculate query
     var result = safeEval(query);
   } catch (error) {
@@ -46,7 +48,7 @@ app.post("/", (req, res) => {
 });
 
 // catch 404
-app.use(function(req, res, next) {
+app.use(function(req, res) {
   res.status(404).send("Page not found.");
 });
 
@@ -54,5 +56,3 @@ app.use(function(req, res, next) {
 let server = app.listen(3000, () => {
   console.log('Listening', server.address().port)
 });
-
-//module.exports = app;
