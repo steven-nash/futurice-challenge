@@ -1,7 +1,7 @@
 # Simple Calculator Web Service
 ### This is a simple web service to implement a calculator.  
 
-The web service parses a Base64 input of a simple calculator. It accepts only numbers and the operations (symbols): + - * ( ),
+The web service parses a Base64 input of a simple calculator. It accepts only numbers and the operations (symbols): + - * / ( ),
 then sends a JSON response of the result with the following formats:  
 
 - On success: { "error": false, "result": number }  
