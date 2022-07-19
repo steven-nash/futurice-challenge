@@ -13,7 +13,7 @@ For ease of use, the endpoint "/" renders a simple UI that takes an input, conve
 The application was written in EJS and JavaScript, using Node.js and Express.js. It uses 'safe-eval' to calculate, a less vulnerable version of the standard 'eval()' (which is very prone to XSS).
 The application was deployed from the repository using AWS App Runner, and can be accessed [here](https://byva2nabtm.us-east-2.awsapprunner.com)
 
-Jest and Supertest were used for testing. The following 6 inputs were tested:  
+Jest and Supertest were used for testing, which can be run using "npm test". The following 6 inputs were tested:  
 - Test of the given example: "2 * (23/(3*3))- 23 * (2*3)".  
 Expected result: -132.88888888888889
 
