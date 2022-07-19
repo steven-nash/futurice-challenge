@@ -11,7 +11,7 @@ then sends a JSON response of the result with the following formats:
 For ease of use, the endpoint "/" renders a simple UI that takes an input, converts it to Base64, and redirects to the endpoint "/calculus?query=[input]".  
 
 The application was written in EJS and JavaScript, using Node.js and Express.js. It uses 'safe-eval' to calculate, a less vulnerable version of the standard 'eval()' (which is very prone to XSS).
-The application was deployed directly from the repository using AWS App Runner, and can be accessed [here](https://byva2nabtm.us-east-2.awsapprunner.com). It is configured to have automatic updates upon every change in this repository, and uses Node version 14.19.0 to meet App Runner's requirements. It was set up with 1 vCPU & 2 GB of memory.
+The application was deployed directly from the repository using AWS App Runner, and can be accessed [here](https://byva2nabtm.us-east-2.awsapprunner.com). It is configured to have automatic updates upon every change in this repository, and uses Node version 14.19.0 to meet App Runner's requirements. It was set up with 1 vCPU and 2 GB of memory, with the region set to us-east-2 (Ohio).
 
 Jest and Supertest were used for testing, which can be run using "npm test". The following 6 inputs were tested:  
 - Test of the given example: "2 * (23/(3*3))- 23 * (2*3)".  
